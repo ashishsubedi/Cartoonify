@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 
+IMAGE_PATH = 'me.jpg'
 
 class Cartoonify:
     def __init__(self, bilateralIterations=5):
@@ -34,7 +35,7 @@ class Cartoonify:
             raise Exception('No edged and colored images found')
 
 
-img = cv2.imread('me.jpg')
+img = cv2.imread(IMAGE_PATH)
 cartoonify = Cartoonify(20)
 edges = cartoonify.findEdges(img)
 colors = cartoonify.findColors(img)
