@@ -6,6 +6,8 @@ ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--image", default="me.jpg", help="Path to the image")
 ap.add_argument("-r", "--realtime", action='store_true',
                 help="Put this if you want to cartoonify webcam feed")
+ap.add_argument('-o', '--output', default="cartoon.jpg",
+                help="Path to save the image with filename")
 args = vars(ap.parse_args())
 
 
@@ -76,6 +78,8 @@ def cartoonify_img(img):
     colors = cartoonify.findColors(img)
 
     cartoon = cartoonify.cartoonify()
+    cv2.imwrite(args['output'], cartoon)
+
     cv2.imshow('cartoon', cartoon)
     cv2.waitKey(0)
 

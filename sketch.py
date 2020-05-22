@@ -15,6 +15,8 @@ ap.add_argument('-r', '--realtime', action='store_true',
                 help="Use this flag if you want to sketch realtime using default webcam")
 ap.add_argument('-i', '--image', default="me.jpg",
                 help="Path to the image")
+ap.add_argument('-o', '--output', default="sketch.jpg",
+                help="Path to save the image with filename")
 args = vars(ap.parse_args())
 
 
@@ -65,6 +67,7 @@ def sketch_image(imgPath):
 
     img = cv2.imread(imgPath)
     sketched = sketch(img)
+    cv2.imwrite(args['output'], sketched)
     cv2.imshow("Sketch", sketched)
     cv2.waitKey(0)
 
