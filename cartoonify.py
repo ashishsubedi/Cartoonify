@@ -4,7 +4,7 @@ import argparse
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--image", default="me.jpg", help="Path to the image")
-ap.add_argument("-l", "--live", action='store_true',
+ap.add_argument("-r", "--realtime", action='store_true',
                 help="Put this if you want to cartoonify webcam feed")
 args = vars(ap.parse_args())
 
@@ -81,7 +81,7 @@ def cartoonify_img(img):
 
 
 if __name__ == "__main__":
-    if(args['live']):
+    if(args['realtime']):
         cartoonify_live()
     else:
         img = cv2.imread(args['image'])
