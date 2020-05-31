@@ -3,14 +3,6 @@ import cv2
 import argparse
 import sys
 
-ap = argparse.ArgumentParser()
-ap.add_argument("-i", "--image", default="me.jpg", help="Path to the image")
-ap.add_argument("-r", "--realtime", action='store_true',
-                help="Put this if you want to cartoonify webcam feed")
-ap.add_argument('-o', '--output', default="cartoon.jpg",
-                help="Path to save the image with filename")
-args = vars(ap.parse_args())
-
 
 class Cartoonify:
     def __init__(self, bilateralIterations=5):
@@ -116,13 +108,33 @@ def cartoonify_img(img):
     colors = cartoonify.findColorsV2(img, 16)
 
     cartoon = cartoonify.cartoonify()
-    cv2.imwrite(args['output'], cartoon)
-    print('Saved to '+args['output'])
-    cv2.imshow('cartoon', cartoon)
-    cv2.waitKey(0)
 
+    cv2.imwrite(args['output'], cartoon)
+
+    if(not args['script']):
+        print('Saved to '+args['output'], flush=True)
+        sys.stdout.flush()
+        cv2.imshow('cartoon', cartoon)
+        cv2.waitKey(0)
+    else:
+        print("Success", flush=True)
+        sys.stdout.flush()
+
+    # cartoon = cv2.cvtColor(cartoon, cv2.COLOR_BGR2RGB)
+
+
+ap = argparse.ArgumentParser()
+ap.add_argument("-i", "--image", default="me.jpg", help="Path to the image")
+ap.add_argument("-r", "--realtime", action='store_true',
+                help="Put this if you want to cartoonify webcam feed")
+ap.add_argument('-o', '--output', default="cartoon.jpg",
+                help="Path to save the image with filename")
+ap.add_argument('-s', '--script', action='store_true',
+                help="Add this if you want to run using script")
+args = vars(ap.parse_args())
 
 if __name__ == "__main__":
+
     if(args['realtime']):
         cartoonify_live()
     else:

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Cartoonify</title>
+	</head>
+	<body>
+		<input type="file" name="image" id="image" />
+		<button name="submit" id="submit">Cartoonify</button>
+		<img id="original" src="" hidden width="400" height="400" />
+		<img id="cartoonified" src="" hidden width="400" height="400" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script>
+			$("#image").on("change", function (e) {
+				var tmppath = URL.createObjectURL(event.target.files[0]);
+				console.log(tmppath);
+				$("#original").attr("src", tmppath);
+				$("#original").attr("hidden", false);
+			});
+			$("#submit").click(function (e) {
+				$("#submit").attr("disabled", true);
+				const fd = new FormData();
+				var image = $("#image")[0].files[0];
+				fd.append("image", image);
+
+				$.ajax({
+					url: "/cartoonify",
+					method: "POST",
+					data: fd,
+					contentType: false,
+					processData: false,
+					success: function (data) {
+						$("#submit").attr("disabled", false);
+
+						if (data.status == "Success") {
+							$("#cartoonified").attr(
+								"src",
+								`data:image/jpeg;base64, ${data.data}`
+							);
+							$("#cartoonified").attr("hidden", false);
+						}
+					},
+					error: function (data) {
+						$("#submit").attr("disabled", false);
+
+						console.log(data);
+					},
+				});
+			});
+		</script>
+	</body>
+</html>
