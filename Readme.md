@@ -1,5 +1,6 @@
 # Cartoonify
 
+## Express API available as well. Check out api folder for more info
 ### Requirements
 
 Python 3, OpenCV 4, Numpy
